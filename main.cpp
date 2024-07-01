@@ -1,12 +1,14 @@
 #include "uart.h"
 
-#include <stdio.h>
+#include <cerrno>
+#include <cstdio>
+#include <iostream>
+#include <queue>
 #include <sys/stat.h>
 
-#ifdef __cplusplus
 extern "C"
 {
-#endif
+    void* __dso_handle = 0;
 
     int _write(int fd, char* ptr, int len)
     {
@@ -58,6 +60,12 @@ extern "C"
         return 0;
     }
 
+    int _open(const char* name, int flags, int mode)
+    {
+        errno = ENOSYS;
+        return -1;
+    }
+
     int _close(int fd)
     {
         return -1;
@@ -68,9 +76,24 @@ extern "C"
         return 1;
     }
 
-#ifdef __cplusplus
+    void _exit(int status)
+    {
+        while (1)
+        {
+        }
+    }
+
+    int _kill(int pid, int sig)
+    {
+        errno = EINVAL;
+        return -1;
+    }
+
+    int _getpid(void)
+    {
+        return -1;
+    }
 }
-#endif
 
 int main()
 {
