@@ -5,10 +5,11 @@ _start:
     # setup default trap vector
     la t0, trap_vector
     csrw mtvec, t0
-    
+
     la sp, _stack_top
     call __libc_init_array
     call main
+    call _exit
 
     .align 2
 trap_vector:

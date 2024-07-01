@@ -35,6 +35,14 @@ SECTIONS
     PROVIDE(_data_end = .);
   } >ram AT>ram :data
 
+  .init.array :
+  {
+      __init_array_start = .;
+      *(.init_array)
+      *(.init_array.*)
+      __init_array_end = .;
+  } >ram :data
+  
   .bss :{
     PROVIDE(_bss_start = .);
     *(.sbss .sbss.*) *(.bss .bss.*)
